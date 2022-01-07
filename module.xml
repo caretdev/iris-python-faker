@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+  <Document name="python-faker.ZPM">
+    <Module>
+      <Name>python-faker</Name>
+      <Version>0.0.1</Version>
+      <Keywords>faker,generator</Keywords>
+      <Description>Python faker for InterSystems IRIS</Description>
+      <Packaging>module</Packaging>
+      <SourcesRoot>src</SourcesRoot>
+      <Resource Name="caretdev.Faker.PKG"/>
+      <UnitTest Name="/tests" Package="UnitTest" Phase="test"/>
+      <CSPApplication
+        Name="/web"
+        Directory="${cspdir}/faker"
+        Url="/faker"
+        MatchRoles=":${dbrole}"
+        Recurse="1"
+        ServeFiles="1"
+        UnauthenticatedEnabled="1"
+        PasswordAuthEnabled="0"
+        UseSessionCookie="2"
+        />
+        <CSPApplication
+        Name="/web"
+        Directory="${cspdir}/faker"
+        Url="/faker/api"
+        DispatchClass="caretdev.Faker.API"
+        MatchRoles=":${dbrole}:%All"
+        Recurse="1"
+        ServeFiles="1"
+        UnauthenticatedEnabled="1"
+        PasswordAuthEnabled="0"
+        UseSessionCookie="2"
+      />
+    </Module>
+  </Document>
+</Export>
