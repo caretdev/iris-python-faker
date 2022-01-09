@@ -26,7 +26,7 @@ ClassMethod outputStatus(pSC As %Status) As %Status
     #; zw errors
     If $Data(errors(1)) {
       Set code = errors(1, "code")
-      Set error = $Piece(errors(1), "#" _ code _":", 2, *)
+      Set error = $Piece(errors(1), "#" _ code _": ", 2, *)
       #; Set error = $Get(errors(1, "param", 1), error)
       Set result.code = code
       Set result.status = error
@@ -55,10 +55,20 @@ ClassMethod ReportHttpStatusCode(pHttpStatus, pSC As %Status = {$$$OK}) As %Stat
 
 ClassMethod CheckStatus() As %Status
 {
+  If '$system.CLS.IsMthd("%SYS.Python","Import") {
+    Quit $$$ERROR($$$GeneralError, "Incompatible version of IRIS. Requires the version with Python Embedded support.")
+  }
+  try {
+    Set faker = ##class(%SYS.Python).Import("faker")
+  } catch e {
+    If e.Data["'ModuleNotFoundError'" {
+      Return $$$ERROR($$$GeneralError, "Python module 'faker' not installed. Please install it with pip3.")
+    }
+    Return e.AsStatus()
+  }
+
   Set result = {
-    "status": "OK",
-    "username": ($Username),
-    "roles": ($Roles)
+    "status": "OK"
   }
   Do result.%ToJSON()
   Return $$$OK
@@ -179,6 +189,7 @@ ClassMethod Generate() As %Status
     $$$QuitOnError(faker.GenerateClass(.tableName))
   }
   Set result = faker.Generate()
+  If $$$ISERR(result) Quit result
   Set json = ##class(%SYS.Python).Import("json")
   Write json.dumps(result)
   Return $$$OK

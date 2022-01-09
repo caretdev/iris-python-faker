@@ -7,7 +7,7 @@ Property locale As %String;
 
 Property previewRows As %Integer [ InitialExpression = 5 ];
 
-Property seed As %Integer(%JSONINCLUDE = "none") [ InitialExpression = -1 ];
+Property seed As %Integer [ InitialExpression = -1 ];
 
 Property columns As list Of ColumnInfo;
 
@@ -20,6 +20,7 @@ Property className As %String(MAXLEN = "");
 ClassMethod Test()
 {
   Set faker = ..%New()
+  #; Set faker.seed = 1
 
   Set clsDef = ##class(%Dictionary.ClassDefinition).%OpenId($This)
   Set key = ""
@@ -33,7 +34,7 @@ ClassMethod Test()
     Set group = $ListGet(metaInfo, 1)
     Set type = $ListGet(metaInfo, 2)
     Set column.name = group _ "_" _ type
-    Set column.type = $Piece(method.Name,"_",2,*)
+    Set column.type = $Piece(method.Name,"type_",2,*)
     Set list(method.SequenceNumber) = column
   }
   Set ind = ""
@@ -184,15 +185,15 @@ Method Generate() [ Language = python ]
       else:
         if hasattr(self, "convert_" + type):
           value = getattr(self, "convert_" + type)(value)
-          output["status"].append(value)
         setattr(item, name, value)
 
     if preview:
       output["items"].append(row)
     else:
       status = item._Save()
-      if not status:
-        output["status"].append(status)
+      if status != 1:
+        return status
+      output["status"].append(status)
       itemId = item._Id()
       created += 1 if status and itemId else 0
 
@@ -338,6 +339,11 @@ Method "type_boolean"(fake, options) As %Boolean [ Language = python ]
 {
   kwargs = self.options2Args(options, ["chance_of_getting_true"])
   return fake.boolean(**kwargs)
+}
+
+Method "convert_boolean"(value) As %Boolean [ Language = python ]
+{
+  return 1 if value else 0
 }
 
 }

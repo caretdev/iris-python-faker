@@ -164,7 +164,7 @@ class PreviewData extends React.Component {
             this.props.data.items.map(row => (
               <tr>{
                 this.props.data.columns.map(column => (
-                  <td>{row[column.name]}</td>
+                  <td>{row.hasOwnProperty(column.name) ? row[column.name].toString() : ''}</td>
                 ))
               }</tr>
             ))
@@ -250,6 +250,7 @@ class Generator extends React.Component {
       locales: [],
       datatypes: [],
       preview: {},
+      fatalError: null,
       showModal: false,
       generateError: null,
       generateInfo: null,
@@ -282,8 +283,12 @@ class Generator extends React.Component {
     fetch("api/")
       .then(response => response.json())
       .then((response) => {
-        this.updateLocales()
-        this.updateDatatypes()
+        if (response.status !== "OK") {
+          this.setState({ fatalError: response.status })
+        } else {
+          this.updateLocales()
+          this.updateDatatypes()
+        }
       })
   }
 
@@ -328,7 +333,7 @@ class Generator extends React.Component {
       this.setState({ showModal: false })
       return
     }
-    const { columns: allColumns, locale, previewRows } = this.state
+    const { columns: allColumns, locale } = this.state
     const columns = allColumns.filter(this.skipEmpty)
     if (!columns || !columns.length) {
       this.setState({ generateError: 'Nothing to generate, no columns' })
@@ -428,6 +433,14 @@ class Generator extends React.Component {
           </Container>
         </nav>
         <GenerateModal error={this.state.generateError} info={this.state.generateInfo} show={this.state.showModal} onHide={this.generate}></GenerateModal>
+        <Modal show={this.state.fatalError} keyboard={false} animation={false}>
+        <Modal.Header className="alert-danger">
+          <Modal.Title>Error</Modal.Title>
+        </Modal.Header>
+          <Modal.Body>
+          {this.state.fatalError}
+          </Modal.Body>
+        </Modal>
       </>
     )
   }
