@@ -11,6 +11,7 @@ RUN apt update && apt install -y python3-pip && rm -rf /var/lib/apt/lists/*
 
 USER ${ISC_PACKAGE_IRISUSER}
 
+WORKDIR /home/irisowner/$MODULE
 ARG TESTS=0
 
 ENV PIP_TARGET=${ISC_PACKAGE_INSTALLDIR}/mgr/python
