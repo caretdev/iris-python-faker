@@ -8,7 +8,7 @@ on:
 
 env:
   # Change this section according to your needs
-  IMAGE_NAME:   faker-image
+  IMAGE_NAME:   faker
   SERVICE:      faker
   DOMAIN_NAME:  faker.demo.community.intersystems.com
 # Leave this section untouched
