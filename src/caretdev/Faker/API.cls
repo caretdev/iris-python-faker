@@ -177,7 +177,7 @@ ClassMethod Test() As %Status
 
 ClassMethod Generate() As %Status
 {
-  If (%request.URL["demo.community.intersystems.com") {
+  If (%request.GetCgiEnv("SERVER_NAME")["demo.community.intersystems.com") {
     Return $$$ERROR($$$GeneralError, "Disabled on Demo server")
   }
   Set faker = ##class(Main).%New()
