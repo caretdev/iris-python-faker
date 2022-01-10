@@ -3,7 +3,7 @@
   <Document name="python-faker.ZPM">
     <Module>
       <Name>python-faker</Name>
-      <Version>0.0.1</Version>
+      <Version>0.0.2</Version>
       <Keywords>faker,generator</Keywords>
       <Description>Python faker for InterSystems IRIS</Description>
       <Packaging>module</Packaging>
