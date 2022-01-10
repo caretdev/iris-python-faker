@@ -177,6 +177,9 @@ ClassMethod Test() As %Status
 
 ClassMethod Generate() As %Status
 {
+  If (%request.URL["demo.community.intersystems.com") {
+    Return $$$ERROR($$$GeneralError, "Disabled on Demo server")
+  }
   Set faker = ##class(Main).%New()
   Set params = {}.%FromJSON(%request.Content)
   Set rows = +params.%Get("rows")
