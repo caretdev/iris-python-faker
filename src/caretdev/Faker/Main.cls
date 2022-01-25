@@ -261,6 +261,13 @@ Method "type_company_name"(fake) As %String(MAXLEN="") [ Language = python ]
   return fake.company()
 }
 
+/// Company
+/// Job
+Method "type_job"(fake) As %String(MAXLEN="") [ Language = python ]
+{
+  return fake.job()
+}
+
 /// Address
 /// Full
 Method "type_address"(fake) As %String(MAXLEN="") [ Language = python ]

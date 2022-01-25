@@ -3,7 +3,7 @@ Class UnitTest.caretdev.Faker.Main Extends %UnitTest.TestCase
 
 Method TestMain()
 {
-  Set datatypes = 16
+  Set datatypes = 17
   Set previewRows = 5
   Set result = ##class("caretdev.Faker.Main").Test()
   If $$$ISERR(result) {
