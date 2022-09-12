@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy:
-    uses: intersystems-community/demo-deployment/.github/workflows/deployment.yml@master
+    uses: intersystems-community/demo-deployment/deployment.yml@master
     with:
       name: faker
     secrets:
