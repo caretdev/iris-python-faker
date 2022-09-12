@@ -9,11 +9,6 @@ on:
 
 jobs:
   deploy:
-    name: 'Deploy to cloud'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy Demo
-        if: github.event.repository.fork == false && github.event.repository.is_template == false
-        uses: intersystems-community/demo-deployment/.github/workflows/deployment.yml@master
-        with:
-          name: faker
+    uses: intersystems-community/demo-deployment/.github/workflows/deployment.yml@master
+    with:
+      name: faker
