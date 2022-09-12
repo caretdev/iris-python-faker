@@ -12,3 +12,5 @@ jobs:
     uses: intersystems-community/demo-deployment/.github/workflows/deployment.yml@master
     with:
       name: faker
+    secrets:
+      SERVICE_ACCOUNT_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY }}
