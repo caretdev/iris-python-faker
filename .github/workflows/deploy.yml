@@ -17,3 +17,4 @@ jobs:
         uses: intersystems-community/demo-deployment@master
         with:
           name: faker
+          url: /faker/index.html
