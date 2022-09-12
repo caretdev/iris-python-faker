@@ -11,6 +11,8 @@ jobs:
   deploy:
     name: 'Deploy to cloud'
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
       - name: Deploy Demo
         if: github.event.repository.fork == false && github.event.repository.is_template == false
