@@ -18,6 +18,7 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 
 ClassMethod outputStatus(pSC As %Status) As %Status
 {
+  #; All good
   Set result = {
     "status": "OK"
   }
